@@ -8,4 +8,11 @@ library(GLMsData)
 
 #Pacotes necessários para as análises
 library(tidyverse)
+library(psych)
+library(ggcorrplot)
 
+
+#Para os modelos de MLG
+library(MASS)
+library(glmtoolbox)#envelopes
+library(alr4)
