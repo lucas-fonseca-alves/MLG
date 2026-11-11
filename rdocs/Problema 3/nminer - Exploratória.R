@@ -1,29 +1,31 @@
 source(here::here("rdocs/Pacotes", "Pacotes.R"))
 
 #Dados
-data(nminer); attach(nminer)
+data(nminer); 
 
 nminer <- nminer %>% 
   dplyr::select(-Minerab) %>% 
-  dplyr::mutate(Miners = as.factor(Miners),
-                Grazed = as.factor(Grazed),
-                Shrubs = as.factor(Shrubs))
+  dplyr::mutate(Miners = factor(Miners, levels = c(0, 1)),
+                Grazed = factor(Grazed, levels = c(0, 1)),
+                Shrubs = factor(Shrubs, levels = c(0, 1)))
 
-
+attach(nminer)
 #------------------------------------------------------------------------------#---- 
-#                               Correlação                                     #
+#   Correlação (Só para as variáveis contínuas, verificar multicolinearidade)  #
 #------------------------------------------------------------------------------#----
 
-mat_corr <- cor(nminer[,-8])
+nminer %>%
+  dplyr::select(!where(is.factor)) %>% 
+  cor() %>% 
+  ggcorrplot(
+             method = "square",       # ou "circle"
+             #type   = "lower",        # mostra só o triângulo inferior
+             lab    = TRUE,           # mostra os valores
+             lab_size = 3,
+             colors = c("firebrick", "white", "steelblue"),
+             title = "Matriz de correlação",
+             ggtheme = theme_minimal())
 
-ggcorrplot(mat_corr,
-           method = "square",       # ou "circle"
-           #type   = "lower",        # mostra só o triângulo inferior
-           lab    = TRUE,           # mostra os valores
-           lab_size = 3,
-           colors = c("firebrick", "white", "steelblue"),
-           title = "Matriz de correlação",
-           ggtheme = theme_minimal())
 
 # EUCS é a variável que tem maior correlação 0.73 com Miners
 # Variáveis não parecem ter alta correlação entre si, o maior valor é -0.64 entre shrubs
@@ -31,6 +33,13 @@ ggcorrplot(mat_corr,
 # As variáveis área e grazed tem correlação baixa com Miners
 # A maioria das variáveis tem correlação negativa com a resposta. 
 
+table(nminer$Grazed, nminer$Shrubs)
+
+# h0: não há associação
+# h1: há associação
+chisq.test(table(nminer$Grazed, nminer$Shrubs))
+#p-value = 0.001389, logo a 5% rejeita h0, então há associação entre as variáveis
+#NÃO usar elas juntas 
 
 #------------------------------------------------------------------------------#---- 
 #                         Variáveis individuais                                #
@@ -130,80 +139,198 @@ ggplot(nminer, aes(x = "", y = Timber)) +
 #------------------------------------------------------------------------------#---- 
 #                         Relação entre as Variáveis                           #
 #------------------------------------------------------------------------------#----
+cores_y <- c("0" = "#F8766D", "1" = "#00BFC4")
+
 
 #*** Miners x Eucs ***#
-ggplot(nminer, aes(x = reorder(Miners, Eucs, FUN = median),
+
+ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Miners))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de árvores de eucalipto", 
+       y = "Miners (0/1)", 
+       color = "Miners") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+
+ggplot(nminer, aes(x = Miners,
                  y = Eucs,
-                 fill = reorder(Miners, Eucs, FUN = median))) +
+                 fill = Miners)) +
   geom_boxplot() +
   stat_summary(fun = mean, geom = "point",
                shape = 18, size = 3, color = "white") +
   labs(x = "Miners",
        y = "Número de árvores de eucalipto",
        fill = "Miners") +
-  theme_minimal()
+  theme_minimal()+
+  theme(legend.position = "none")
 
 describeBy(nminer$Eucs, group = nminer$Miners, mat = TRUE)
 tapply(nminer$Eucs, nminer$Miners, summary)
 
 #*** Miners x Bulokes ***# 
-ggplot(nminer, aes(x = reorder(Miners, Bulokes, FUN = median),
+
+ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Miners))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de árvores de bulokes", 
+       y = "Miners (0/1)", 
+       color = "Miners") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+ggplot(nminer, aes(x = Miners,
                    y = Bulokes,
-                   fill = reorder(Miners, Bulokes, FUN = median))) +
+                   fill = Miners)) +
   geom_boxplot() +
   stat_summary(fun = mean, geom = "point",
                shape = 18, size = 3, color = "white") +
   labs(x = "Miners",
        y = "Número de árvores de bulokes",
        fill = "Miners") +
-  theme_minimal()
+  theme_minimal()+
+  theme(legend.position = "none")
 
 describeBy(nminer$Bulokes, group = nminer$Miners, mat = TRUE)
 tapply(nminer$Bulokes, nminer$Miners, summary)
 
 #*** Miners x Area ***# 
-ggplot(nminer, aes(x = reorder(Miners, Area, FUN = median),
+
+ggplot(nminer, aes(x = Area, y = Miners, color = factor(Miners))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Área do fragmento remanescente contínuo de vegetação", 
+       y = "Miners (0/1)", 
+       color = "Miners") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+ggplot(nminer, aes(x = Miners,
                    y = Area,
-                   fill = reorder(Miners, Area, FUN = median))) +
+                   fill = Miners)) +
   geom_boxplot() +
   stat_summary(fun = mean, geom = "point",
                shape = 18, size = 3, color = "white") +
   labs(x = "Miners",
        y = "Área do fragmento remanescente contínuo de vegetação",
        fill = "Miners") +
-  theme_minimal()
+  theme_minimal()+
+  theme(legend.position = "none")
 
 describeBy(nminer$Area, group = nminer$Miners, mat = TRUE)
 tapply(nminer$Area, nminer$Miners, summary)
 
 
 #*** Miners x Timber ***# 
-ggplot(nminer, aes(x = reorder(Miners, Timber, FUN = median),
+
+ggplot(nminer, aes(x = Timber, y = Miners, color = factor(Miners))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de pedaços de madeira caída", 
+       y = "Miners (0/1)", 
+       color = "Miners") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+ggplot(nminer, aes(x = Miners,
                    y = Timber,
-                   fill = reorder(Miners, Timber, FUN = median))) +
+                   fill = Miners)) +
   geom_boxplot() +
   stat_summary(fun = mean, geom = "point",
                shape = 18, size = 3, color = "white") +
   labs(x = "Miners",
        y = "Número de pedaços de madeira caída",
        fill = "Miners") +
-  theme_minimal()
+  theme_minimal()+
+  theme(legend.position = "none")
 
 describeBy(nminer$Timber, group = nminer$Miners, mat = TRUE)
 tapply(nminer$Timber, nminer$Miners, summary)
 
 
 #*** Miners x Grazed ***#
+table(nminer$Grazed, nminer$Miners)
 
 ggplot(nminer, aes(x = Grazed, fill = factor(Miners))) +
   geom_bar(position = "fill", color = "white") +
   labs(x = "Se a área foi pastada", y = "Proporção", fill = "Miners") +
   theme_minimal()
 
+ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Grazed))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de árvores de eucalipto", 
+       y = "Miners (0/1)", 
+       color = "Área pastada?") +
+  theme_minimal()
+
+ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Grazed))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de árvores de bulokes", 
+       y = "Miners (0/1)", 
+       color = "Área pastada?") +
+  theme_minimal()
+
+ggplot(nminer, aes(x = Area, y = Miners, color = factor(Grazed))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Área do fragmento remanescente contínuo de vegetação", 
+       y = "Miners (0/1)", 
+       color = "Área pastada?") +
+  theme_minimal()
+
+ggplot(nminer, aes(x = Timber, y = Miners, color = factor(Grazed))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de pedaços de madeira caída", 
+       y = "Miners (0/1)", 
+       color = "Área pastada?") +
+  theme_minimal()
 
 #*** Miners x Shrubs ***#
+
+table(nminer$Shrubs, nminer$Miners)
+
 
 ggplot(nminer, aes(x = Shrubs, fill = factor(Miners))) +
   geom_bar(position = "fill", color = "white") +
   labs(x = "Se havia arbusto presentes na área", y = "Proporção", fill = "Miners") +
   theme_minimal()
+
+ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Shrubs))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de árvores de eucalipto", 
+       y = "Miners (0/1)", 
+       color = "Arbusto presentes na área?") +
+  theme_minimal()
+
+ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Shrubs))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de árvores de bulokes", 
+       y = "Miners (0/1)", 
+       color = "Arbusto presentes na área?") +
+  theme_minimal()
+
+ggplot(nminer, aes(x = Area, y = Miners, color = factor(Shrubs))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Área do fragmento remanescente contínuo de vegetação", 
+       y = "Miners (0/1)", 
+       color = "Arbusto presentes na área?") +
+  theme_minimal()
+
+ggplot(nminer, aes(x = Timber, y = Miners, color = factor(Shrubs))) +
+  geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
+  scale_color_manual(values = cores_y) +
+  labs(x = "Número de pedaços de madeira caída", 
+       y = "Miners (0/1)", 
+       color = "Arbusto presentes na área?") +
+  theme_minimal()
+
+
+#------------------------------------------------------------------------------#----
+
