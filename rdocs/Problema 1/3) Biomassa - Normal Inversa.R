@@ -1,10 +1,10 @@
 source(here::here("rdocs/Pacotes", "Pacotes.R"))
 
 # Dados
-data(lime); attach(lime)
-
+data(lime); 
 lime <- lime %>%
   mutate(Origin = fct_reorder(Origin, Foliage, .fun = median))
+attach(lime)
 
 # Não utilizar DBH e Age juntas, pois, tem alta multicolinearidade
 #------------------------------------------------------------------------------#---- 
@@ -23,9 +23,9 @@ fit3_NIL <- glm(Foliage ~ log(DBH) + Origin ,
                 family=inverse.gaussian(link="log"))
 summary(fit3_NIL)
 
-fit4_NIL <- glm(Foliage ~ log(Age) + Origin , 
-                family=inverse.gaussian(link="log"))
-summary(fit4_NIL)
+# fit4_NIL <- glm(Foliage ~ log(Age) + Origin , 
+#                 family=inverse.gaussian(link="log"))
+# summary(fit4_NIL)
 
 fit5_NIL <- glm(Foliage ~ DBH , 
                 family=inverse.gaussian(link="log"))
@@ -50,13 +50,24 @@ envelope(fit1_NIL, rep=100, conf=0.95, type="quantile")
 envelope(fit1_NIL, rep=100, conf=0.95, type="deviance")
 envelope(fit1_NIL, rep=100, conf=0.95, type="pearson")
 
+fit.model <- fit1_NIL
+source(here::here("rdocs/Pacotes", "diag_ninv.R"))
+
 envelope(fit2_NIL, rep=100, conf=0.95, type="quantile")
 envelope(fit2_NIL, rep=100, conf=0.95, type="deviance")
 envelope(fit2_NIL, rep=100, conf=0.95, type="pearson")
 
+fit.model <- fit2_NIL
+source(here::here("rdocs/Pacotes", "diag_ninv.R"))
+
+
 envelope(fit3_NIL, rep=100, conf=0.95, type="quantile")
 envelope(fit3_NIL, rep=100, conf=0.95, type="deviance")
 envelope(fit3_NIL, rep=100, conf=0.95, type="pearson")
+
+#Gráficos de homogeneidade (mas ainda enxergo o homogeneidade como um funil) e Variável z parecem ok 
+fit.model <- fit3_NIL
+source(here::here("rdocs/Pacotes", "diag_ninv.R"))
 
 # envelope(fit4_NIL, rep=100, conf=0.95, type="quantile")
 # envelope(fit4_NIL, rep=100, conf=0.95, type="deviance")
@@ -66,14 +77,16 @@ envelope(fit5_NIL, rep=100, conf=0.95, type="quantile")
 envelope(fit5_NIL, rep=100, conf=0.95, type="deviance")
 envelope(fit5_NIL, rep=100, conf=0.95, type="pearson")
 
+#Linearização fica boa, mas o homogeneidade ainda me parece funil
+fit.model <- fit5_NIL
+source(here::here("rdocs/Pacotes", "diag_ninv.R"))
+
 #O 6 parece o menos pior
 envelope(fit6_NIL, rep=100, conf=0.95, type="quantile")
 envelope(fit6_NIL, rep=100, conf=0.95, type="deviance")
 envelope(fit6_NIL, rep=100, conf=0.95, type="pearson")
 
-#** Diagnostico Modelo 7 - Scripts Prof. Gilberto **#
 fit.model <- fit6_NIL
-source(here::here("rdocs/Pacotes", "envel_ninv.R"))
 source(here::here("rdocs/Pacotes", "diag_ninv.R"))
 
 
@@ -81,6 +94,14 @@ envelope(fit7_NIL, rep=100, conf=0.95, type="quantile")
 envelope(fit7_NIL, rep=100, conf=0.95, type="deviance")
 envelope(fit7_NIL, rep=100, conf=0.95, type="pearson")
 
+fit.model <- fit7_NIL
+source(here::here("rdocs/Pacotes", "diag_ninv.R"))
+
+
+#Aplicar o Log não fez muita diferença no Envelope
 envelope(fit8_NIL, rep=100, conf=0.95, type="quantile")
 envelope(fit8_NIL, rep=100, conf=0.95, type="deviance")
 envelope(fit8_NIL, rep=100, conf=0.95, type="pearson")
+
+fit.model <- fit8_NIL
+source(here::here("rdocs/Pacotes", "diag_ninv.R"))

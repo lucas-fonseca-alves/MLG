@@ -19,13 +19,13 @@ pch=16)
 #
 plot(di,xlab="Índice", ylab="Distância de Cook",
 pch=16)
-#identify(di, n=1)
+#identify(di)
 #
 plot(td,xlab="Índice", ylab="Resíduo Componente do Desvio",
 ylim=c(a-1,b+1), pch=16)
 abline(2,0,lty=2)
 abline(-2,0,lty=2)
-#identify(td, n=1)
+#identify(td)
 #
 w <- fit.model$weights
 eta <- predict(fit.model)
@@ -33,6 +33,7 @@ z <- eta + resid(fit.model, type="pearson")/sqrt(w)
 plot(predict(fit.model),z,xlab="Preditor Linear", 
 ylab="Variavel z", pch=16)
 lines(smooth.spline(predict(fit.model), z, df=2))
+
 par(mfrow=c(1,1))
 #---------------------------------------------------------------#
 

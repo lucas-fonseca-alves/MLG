@@ -30,16 +30,20 @@ par(mfrow = c(2, 2))
 
 plot(h, xlab = "Índice", ylab = "Medida h", pch = 16, ylim = c(0, 1))
 abline(2 * p / n, 0, lty = 2)
+identify(h, n=6)
 
 plot(di, xlab = "Índice", ylab = "Distância de Cook", pch = 16)
+identify(di, n=6)
 
 plot(tsi, xlab = "Índice", ylab = "Resíduo Padronizado",
      ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2); abline(-2, 0, lty = 2)
+identify(tsi, n=5)
 
 plot(fitted(fit.model), tsi, xlab = "Valor Ajustado",
      ylab = "Resíduo Padronizado", ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2); abline(-2, 0, lty = 2)
+identify(fitted(fit.model),tsi)
 
 par(mfrow = c(1, 1))
 #------------------------------------------------------------#

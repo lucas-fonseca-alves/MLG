@@ -1,11 +1,12 @@
 source(here::here("rdocs/Pacotes", "Pacotes.R"))
 
 # Dados
-data(lime);attach(lime)
+data(lime)
 
 lime <- lime %>%
   mutate(Origin = fct_reorder(Origin, Foliage, .fun = median))
 
+attach(lime)
 # Não utilizar DBH e Age juntas, pois, tem alta multicolinearidade
 #------------------------------------------------------------------------------#---- 
 #                     Modelo Gama - Ligação Log                                #
@@ -52,13 +53,14 @@ envelope(fit1_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit1_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit1_GL, rep=100, conf=0.95, type="pearson")
 
+fit.model <- fit1_GL
+source(here::here("rdocs/Pacotes", "diag_gama.R"))
+
 envelope(fit2_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit2_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit2_GL, rep=100, conf=0.95, type="pearson")
 
-#** Diagnostico - Scripts Prof. Gilberto **#
 fit.model <- fit2_GL
-source(here::here("rdocs/Pacotes", "envel_gama.R"))
 source(here::here("rdocs/Pacotes", "diag_gama.R"))
 
 
@@ -66,9 +68,7 @@ envelope(fit3_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit3_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit3_GL, rep=100, conf=0.95, type="pearson")
 
-#** Diagnostico - Scripts Prof. Gilberto **#
 fit.model <- fit3_GL
-source(here::here("rdocs/Pacotes", "envel_gama.R"))
 source(here::here("rdocs/Pacotes", "diag_gama.R"))
 
 
@@ -76,22 +76,36 @@ envelope(fit4_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit4_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit4_GL, rep=100, conf=0.95, type="pearson")
 
+fit.model <- fit4_GL
+source(here::here("rdocs/Pacotes", "diag_gama.R"))
+
+
 envelope(fit5_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit5_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit5_GL, rep=100, conf=0.95, type="pearson")
 
 #** Diagnostico - Scripts Prof. Gilberto **# #Numa olhada geral, esse ganharia
 fit.model <- fit5_GL
-source(here::here("rdocs/Pacotes", "envel_gama.R"))
 source(here::here("rdocs/Pacotes", "diag_gama.R"))
 
 envelope(fit6_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit6_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit6_GL, rep=100, conf=0.95, type="pearson")
 
+fit.model <- fit6_GL
+source(here::here("rdocs/Pacotes", "diag_gama.R"))
+
+
 envelope(fit7_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit7_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit7_GL, rep=100, conf=0.95, type="pearson")
+
+fit.model <- fit7_GL
+source(here::here("rdocs/Pacotes", "diag_gama.R"))
+
+
+fit.model <- fit8_GL
+source(here::here("rdocs/Pacotes", "diag_gama.R"))
 
 envelope(fit8_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit8_GL, rep=100, conf=0.95, type="deviance")

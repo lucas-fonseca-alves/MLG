@@ -16,3 +16,7 @@ library(ggcorrplot)
 library(MASS)
 library(glmtoolbox)#envelopes
 library(alr4)
+
+#Função de mudança relativa:
+# Calculo da mudança relativa
+MR <- function(a,b) cat("Mudança relativa = ", round(as.numeric((b/a-1)*100),2), "%","\n")

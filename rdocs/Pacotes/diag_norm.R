@@ -17,22 +17,23 @@ par(mfrow=c(2,2))
 plot(h,xlab="Índice", ylab="Medida h", pch=16, ylim=c(0,1))
 cut <- 2*p/n
 abline(cut,0,lty=2)
-#identify(h, n=1)
+identify(h, n=9)
 #title(sub="(a)")
 #
 plot(di,xlab="Índice", ylab="Distância de Cook", pch=16)
-#identify(di, n=2)
+#identify(di, n=13)
+
 #
 plot(tsi,xlab="Índice", ylab="Resíduo Padronizado",
 ylim=c(b-1,a+1), pch=16)
 abline(2,0,lty=2)
 abline(-2,0,lty=2)
-#identify(tsi, n=1)
+#identify(tsi, n=25)
 #
 plot(fitted(fit.model),tsi,xlab="Valor Ajustado", 
 ylab="Resíduo Padronizado", ylim=c(b-1,a+1), pch=16)
 abline(2,0,lty=2)
 abline(-2,0,lty=2)
-#identify(fitted(fit.model),tsi, n=1)
+#identify(fitted(fit.model),tsi)
 par(mfrow=c(1,1))
 #------------------------------------------------------------#
