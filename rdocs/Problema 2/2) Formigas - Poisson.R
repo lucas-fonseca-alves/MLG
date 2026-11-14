@@ -41,6 +41,16 @@ fit1_PL <- glm(Srich ~ Latitude + Elevation + Habitat ,
                data = ants)
 summary(fit1_PL)
 
+fit2_PL <- glm(Srich ~ Latitude + Habitat , 
+               family=poisson(link = "log"),
+               data = ants)
+summary(fit2_PL)
+
+fit3_PL <- glm(Srich ~ Elevation + Habitat , 
+               family=poisson(link = "log"),
+               data = ants)
+summary(fit3_PL)
+
 
 ##**********************************Diagnóstico**********************************#----
 
@@ -103,3 +113,22 @@ MR(coef(fit1_PL), coef(fit1_PL_w29)) # 3.06 2.95 8.44 -7.76 (ok)
 MR(coef(fit1_PL), coef(fit1_PL_w))   # -14.15 -17.3 37.65 -0.25 % (Perigoso)
 
 
+
+#Envelope ficou ótimo (chocante)
+envelope(fit2_PL, rep=100, conf=0.95, type="quantile")
+envelope(fit2_PL, rep=100, conf=0.95, type="deviance")
+envelope(fit2_PL, rep=100, conf=0.95, type="pearson")
+
+#Numa visualização geral, ficou bom o ajuste. verificar os pontos
+fit.model <- fit2_PL
+source(here::here("rdocs/Pacotes", "diag_pois.R"))
+
+
+#Envelope não fica tão bom quanto os outros.
+envelope(fit3_PL, rep=100, conf=0.95, type="quantile")
+envelope(fit3_PL, rep=100, conf=0.95, type="deviance")
+envelope(fit3_PL, rep=100, conf=0.95, type="pearson")
+
+#Numa visualização geral, ficou bom o ajuste. verificar os pontos
+fit.model <- fit3_PL
+source(here::here("rdocs/Pacotes", "diag_pois.R"))

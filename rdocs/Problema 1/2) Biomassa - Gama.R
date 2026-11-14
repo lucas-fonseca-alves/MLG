@@ -9,7 +9,7 @@ lime <- lime %>%
 attach(lime)
 # Não utilizar DBH e Age juntas, pois, tem alta multicolinearidade
 #------------------------------------------------------------------------------#---- 
-#                     Modelo Gama - Ligação Log                                #
+#                     Modelo Gama - Ligação Log (fit 6)                               #
 #------------------------------------------------------------------------------#----
 #*** Ajustes ***#
 fit1_GL <- glm(Foliage ~ DBH + Origin , 

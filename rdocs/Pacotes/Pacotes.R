@@ -16,6 +16,7 @@ library(ggcorrplot)
 library(MASS)
 library(glmtoolbox)#envelopes
 library(alr4)
+library(statmod)
 
 #Função de mudança relativa:
 # Calculo da mudança relativa

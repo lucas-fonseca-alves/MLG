@@ -9,15 +9,8 @@ ants <- ants %>%
 
 attach(ants)
 #------------------------------------------------------------------------------#---- 
-#               Modelo Normal - Ligação Log (ótimo, chocante)                  #
+#               Modelo Normal - Ligação Log (ótimo, chocante) (Fit1 fica melhor, mas fit3 parece que reduz mais a dependencia geográfica)                 #
 #------------------------------------------------------------------------------#----
-#*** Ajustes ***#
-fit1_NL <- glm(Srich ~ Latitude + Elevation + Habitat , 
-               family=gaussian(link = "log"),
-               data=ants)
-summary(fit1_NL)
-
-
 #*************************** Métodos automatizados ****************************#----
 # Modelo nulo (apenas o intercepto)
 modelo_nulo <- glm(Srich ~ 1,
@@ -39,6 +32,24 @@ stepAIC(fit1_NL,
 #Levaram para o modelo completo
 
 #------------------------------------------------------------------------------#----
+
+#*** Ajustes ***#
+fit1_NL <- glm(Srich ~ Latitude + Elevation + Habitat , 
+               family=gaussian(link = "log"),
+               data=ants)
+summary(fit1_NL)
+
+fit2_NL <- glm(Srich ~ Latitude + Habitat , 
+               family=gaussian(link = "log"),
+               data=ants)
+summary(fit2_NL)
+
+fit3_NL <- glm(Srich ~ Elevation + Habitat , 
+               family=gaussian(link = "log"),
+               data=ants)
+summary(fit3_NL)
+
+
 
 ##**********************************Diagnóstico**********************************#----
 
@@ -98,3 +109,25 @@ MR(coef(fit1_NL), coef(fit1_NL_w))   #-18.88 -22.41 33.3 -3.89 %  (Perigoso)
 
 
 # PESQUISAR: Ocorre correlação baixa para altitude latitude quando a correlação é pequena 
+
+
+#Envelope ficou ótimo (chocante)
+envelope(fit2_NL, rep=100, conf=0.95, type="quantile")
+envelope(fit2_NL, rep=100, conf=0.95, type="deviance")
+envelope(fit2_NL, rep=100, conf=0.95, type="pearson")
+
+#Numa visualização geral, ficou bom o ajuste. verificar os pontos
+fit.model <- fit2_NL
+source(here::here("rdocs/Pacotes", "diag_norm_mlg.R"))
+#A ligação fica bem esquisita
+
+#Envelope ficou ótimo (chocante)
+envelope(fit3_NL, rep=100, conf=0.95, type="quantile")
+envelope(fit3_NL, rep=100, conf=0.95, type="deviance")
+envelope(fit3_NL, rep=100, conf=0.95, type="pearson")
+
+#Numa visualização geral, ficou bom o ajuste. verificar os pontos
+fit.model <- fit3_NL
+source(here::here("rdocs/Pacotes", "diag_norm_mlg.R"))
+#Utilizar só elevação parece retirar um pouco da dependência geográfica. 
+

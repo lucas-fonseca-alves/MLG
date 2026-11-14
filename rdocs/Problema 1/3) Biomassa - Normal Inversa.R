@@ -8,7 +8,7 @@ attach(lime)
 
 # Não utilizar DBH e Age juntas, pois, tem alta multicolinearidade
 #------------------------------------------------------------------------------#---- 
-#                 Modelo Normal Inversa - Ligação Log                          #
+#                 Modelo Normal Inversa - Ligação Log     (fit 3)                     #
 #------------------------------------------------------------------------------#----
 
 fit1_NIL <- glm(Foliage ~ DBH + Origin , 
@@ -68,6 +68,8 @@ envelope(fit3_NIL, rep=100, conf=0.95, type="pearson")
 #Gráficos de homogeneidade (mas ainda enxergo o homogeneidade como um funil) e Variável z parecem ok 
 fit.model <- fit3_NIL
 source(here::here("rdocs/Pacotes", "diag_ninv.R"))
+# 24, 20
+
 
 # envelope(fit4_NIL, rep=100, conf=0.95, type="quantile")
 # envelope(fit4_NIL, rep=100, conf=0.95, type="deviance")
