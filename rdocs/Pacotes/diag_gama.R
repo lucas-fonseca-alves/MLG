@@ -105,18 +105,18 @@ par(mfrow = c(2, 2))
 # (1) Alavancagem vs. valores ajustados
 plot(fitted(fit.model), h,
      xlab = "Valor Ajustado", ylab = "Medida h", pch = 16)
-# identify(fitted(fit.model), h, n = 3)
+#identify(fitted(fit.model), h)
 
 # (2) Distância de Cook
 plot(di, xlab = "Índice", ylab = "Distância de Cook", pch = 16)
-# identify(di, n = 5)
+#identify(di)
 
 # (3) Resíduo quantílico vs. índice
 plot(resq, xlab = "Índice", ylab = "Resíduo Quantílico",
      ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2)
 abline(-2, 0, lty = 2)
-# identify(resq, n = 4)
+#identify(resq)
 
 # (4) Resíduo quantílico vs. valores ajustados
 plot(fitted(fit.model), resq,
@@ -124,17 +124,17 @@ plot(fitted(fit.model), resq,
      ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2)
 abline(-2, 0, lty = 2)
-# identify(fitted(fit.model), resq, n = 3)
+#identify(fitted(fit.model), resq)
 
 par(mfrow = c(1, 1))
 
 # (5) Gráfico Preditor Linear vs. Variável z
-# plot(eta, z,
-#      xlab = "Preditor Linear (η)",
-#      ylab = "Variável z",
-#      pch = 16)
-# lines(smooth.spline(eta, z, df = 2))
-# identify(eta, z, n = 4)
+plot(eta, z,
+     xlab = "Preditor Linear (η)",
+     ylab = "Variável z",
+     pch = 16)
+lines(smooth.spline(eta, z, df = 2))
+#identify(eta, z)
 
 # (6) QQ-plot dos resíduos quantílicos (opcional)
 # qqnorm(resq, pch = 16, main = "QQ-plot - Res. Quantílico")

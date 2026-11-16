@@ -92,7 +92,7 @@ plot(resq, xlab = "Índice", ylab = "Resíduo Quantílico",
      ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2)
 abline(-2, 0, lty = 2)
-# identify(resq, n = 4)
+# identify(resq, n = 5)
 
 # (4) Resíduo quantílico vs. valores ajustados
 plot(fitted(fit.model), resq,
@@ -100,16 +100,16 @@ plot(fitted(fit.model), resq,
      ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2)
 abline(-2, 0, lty = 2)
-# identify(fitted(fit.model), resq, n = 3)
+# identify(fitted(fit.model), resq, n = 5)
 
 par(mfrow = c(1, 1))
 
 # (5) Gráfico Preditor Linear vs. Variável z
-# plot(eta, z,
-#      xlab = "Preditor Linear (η)",
-#      ylab = "Variável z",
-#      pch = 16)
-# lines(smooth.spline(eta, z, df = 2))
+plot(eta, z,
+     xlab = "Preditor Linear (η)",
+     ylab = "Variável z",
+     pch = 16)
+lines(smooth.spline(eta, z, df = 2))
 # identify(eta, z, n = 4)
 
 # (6) QQ-plot dos resíduos quantílicos (opcional)

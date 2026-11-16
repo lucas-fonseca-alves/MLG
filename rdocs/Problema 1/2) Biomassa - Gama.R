@@ -9,7 +9,7 @@ lime <- lime %>%
 attach(lime)
 # Não utilizar DBH e Age juntas, pois, tem alta multicolinearidade
 #------------------------------------------------------------------------------#---- 
-#                     Modelo Gama - Ligação Log (fit 6)                               #
+#                     Modelo Gama - Ligação Log (fit 7 venceu)                               #
 #------------------------------------------------------------------------------#----
 #*** Ajustes ***#
 fit1_GL <- glm(Foliage ~ DBH + Origin , 
@@ -84,7 +84,6 @@ envelope(fit5_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit5_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit5_GL, rep=100, conf=0.95, type="pearson")
 
-#** Diagnostico - Scripts Prof. Gilberto **# #Numa olhada geral, esse ganharia
 fit.model <- fit5_GL
 source(here::here("rdocs/Pacotes", "diag_gama.R"))
 
@@ -94,6 +93,36 @@ envelope(fit6_GL, rep=100, conf=0.95, type="pearson")
 
 fit.model <- fit6_GL
 source(here::here("rdocs/Pacotes", "diag_gama.R"))
+#22, 23
+#15, 22, 23
+#15, 22, 23
+
+
+fit6_GL_w15 <- glm(Foliage ~ log(Age) + Origin , 
+                       family=Gamma(link = "log"),
+                       data = lime,
+                       subset=-c(15));summary(fit6_GL_w15)
+
+fit6_GL_w22 <- glm(Foliage ~ log(Age) + Origin , 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(22));summary(fit6_GL_w22)
+
+fit6_GL_w23 <- glm(Foliage ~ log(Age) + Origin , 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(23));summary(fit6_GL_w23)
+
+fit6_GL_w <- glm(Foliage ~ log(Age) + Origin , 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(15, 22, 23));summary(fit6_GL_w)
+
+MR(coef(fit6_GL), coef(fit6_GL_w15)) # -0.84 -1.11 3.44 2 %
+MR(coef(fit6_GL), coef(fit6_GL_w22)) # 2.36 1.94 6.39 3.04 % 
+MR(coef(fit6_GL), coef(fit6_GL_w23)) # 6.18 5.09 16.9 7.97 %
+MR(coef(fit6_GL), coef(fit6_GL_w)) # 8.32 6.44 28.33 13.71 % 
+
 
 
 envelope(fit7_GL, rep=100, conf=0.95, type="quantile")
@@ -102,13 +131,53 @@ envelope(fit7_GL, rep=100, conf=0.95, type="pearson")
 
 fit.model <- fit7_GL
 source(here::here("rdocs/Pacotes", "diag_gama.R"))
+# 20, 24
+# 21, 22, 23, 377
+# 22, 23, 32, 226, 344, 377
+# 22, 23, 377
 
 
-fit.model <- fit8_GL
-source(here::here("rdocs/Pacotes", "diag_gama.R"))
+
+fit7_GL_w20 <- glm(Foliage ~ log(DBH), 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(20));summary(fit7_GL_w20)
+
+fit7_GL_w22 <- glm(Foliage ~ log(DBH), 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(22));summary(fit7_GL_w22)
+
+fit7_GL_w23 <- glm(Foliage ~ log(DBH), 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(23));summary(fit7_GL_w23)
+
+fit7_GL_w377 <- glm(Foliage ~ log(DBH), 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(377));summary(fit7_GL_w377)
+
+fit7_GL_w <- glm(Foliage ~ log(DBH), 
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(20, 22, 23, 377));summary(fit7_GL_w)
+
+
+
+MR(coef(fit7_GL), coef(fit7_GL_w20)) # 0.83 0.76 % 
+MR(coef(fit7_GL), coef(fit7_GL_w22)) # 2.5 2.1 % 
+MR(coef(fit7_GL), coef(fit7_GL_w23)) # 2.34 1.85 % 
+MR(coef(fit7_GL), coef(fit7_GL_w377)) # -0.61 -0.75 %
+MR(coef(fit7_GL), coef(fit7_GL_w)) # 5.55 4.38 % 
+
 
 envelope(fit8_GL, rep=100, conf=0.95, type="quantile")
 envelope(fit8_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit8_GL, rep=100, conf=0.95, type="pearson")
+
+fit.model <- fit8_GL
+source(here::here("rdocs/Pacotes", "diag_gama.R"))
+
 
 #------------------------------------------------------------------------------#----

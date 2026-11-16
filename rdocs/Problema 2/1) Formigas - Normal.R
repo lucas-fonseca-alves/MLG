@@ -9,7 +9,7 @@ ants <- ants %>%
 
 attach(ants)
 #------------------------------------------------------------------------------#---- 
-#               Modelo Normal - Ligação Log (ótimo, chocante) (Fit1 fica melhor, mas fit3 parece que reduz mais a dependencia geográfica)                 #
+#               Modelo Normal - Ligação Log (ótimo, chocante) (Fit2 fica melhor)#
 #------------------------------------------------------------------------------#----
 #*************************** Métodos automatizados ****************************#----
 # Modelo nulo (apenas o intercepto)
@@ -120,6 +120,39 @@ envelope(fit2_NL, rep=100, conf=0.95, type="pearson")
 fit.model <- fit2_NL
 source(here::here("rdocs/Pacotes", "diag_norm_mlg.R"))
 #A ligação fica bem esquisita
+# 1  3  4 25
+# 1  3 13 25
+# 1  3 13 25
+# 25 43 44
+
+summary(fit2_NL)
+fit2_NL_w1 <- glm(Srich ~ Latitude + Habitat, 
+                 family=gaussian(link = "log"),
+                 data = ants,
+                 subset=-c(1));summary(fit2_NL_w1)
+
+fit2_NL_w3 <- glm(Srich ~ Latitude + Habitat, 
+                 family=gaussian(link = "log"),
+                 data = ants,
+                 subset=-c(3));summary(fit2_NL_w3)
+
+fit2_NL_w25 <- glm(Srich ~ Latitude + Habitat, 
+                 family=gaussian(link = "log"),
+                 data = ants,
+                 subset=-c(25));summary(fit2_NL_w25)
+
+fit2_NL_w <- glm(Srich ~ Latitude + Habitat, 
+                 family=gaussian(link = "log"),
+                 data = ants,
+                 subset=-c(1,3,25));summary(fit2_NL_w)
+
+#***mudança nas estimativas***# (Lidou melhor)
+MR(coef(fit2_NL), coef(fit2_NL_w1)) #10.7 12.07 6.54 % 
+MR(coef(fit2_NL), coef(fit2_NL_w3)) # -8.6 -9.68 -6.36 %
+MR(coef(fit2_NL), coef(fit2_NL_w25)) #-5.77 -5.76 15.28 % 
+MR(coef(fit2_NL), coef(fit2_NL_w)) # -4.94 -4.83 15.19 % 
+
+
 
 #Envelope ficou ótimo (chocante)
 envelope(fit3_NL, rep=100, conf=0.95, type="quantile")
@@ -130,4 +163,35 @@ envelope(fit3_NL, rep=100, conf=0.95, type="pearson")
 fit.model <- fit3_NL
 source(here::here("rdocs/Pacotes", "diag_norm_mlg.R"))
 #Utilizar só elevação parece retirar um pouco da dependência geográfica. 
+
+# 2  3  4  7  8 20 25
+# 3  8 25
+# 25
+
+fit3_NL_w3 <- glm(Srich ~ Elevation + Habitat , 
+                 family=gaussian(link = "log"),
+                 data = ants,
+                 subset=-c(3));summary(fit3_NL_w3)
+
+fit3_NL_w8 <- glm(Srich ~ Elevation + Habitat , 
+                  family=gaussian(link = "log"),
+                  data = ants,
+                  subset=-c(8));summary(fit3_NL_w8)
+
+fit3_NL_w25 <- glm(Srich ~ Elevation + Habitat , 
+                  family=gaussian(link = "log"),
+                  data = ants,
+                  subset=-c(25));summary(fit3_NL_w25)
+
+fit3_NL_w <- glm(Srich ~ Elevation + Habitat , 
+                  family=gaussian(link = "log"),
+                  data = ants,
+                  subset=-c(3, 8 ,25));summary(fit3_NL_w)
+
+
+#***mudança nas estimativas***# (Lidou melhor)
+MR(coef(fit3_NL), coef(fit3_NL_w3)) #-0.18 -1.45 -6.65 % 
+MR(coef(fit3_NL), coef(fit3_NL_w8)) # 1.92 16.54 -2.17 % 
+MR(coef(fit3_NL), coef(fit3_NL_w25)) # -5.01 0.3 14.56 % 
+MR(coef(fit3_NL), coef(fit3_NL_w)) # -2.98 18.27 5.59 % 
 

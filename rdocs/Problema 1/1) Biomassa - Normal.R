@@ -11,7 +11,7 @@ attach(lime)
 
 # Não utilizar DBH e Age juntas, pois, tem alta multicolinearidade
 #------------------------------------------------------------------------------#---- 
-#                     Modelo Normal - Ligação Log (RUINS) (Fit_8_NL)           #
+#                     Modelo Normal - Ligação Log (RUINS) (Fit_1_NL) colocar Fit2 também para comparar#
 #------------------------------------------------------------------------------#----
 #*** Ajustes ***#
 fit1_NL <- glm(Foliage ~ DBH + Origin , 
@@ -143,7 +143,7 @@ source(here::here("rdocs/Pacotes", "diag_norm_mlg.R"))
 #Não tenho certeza da violação de homocedasticidade
 fit.model <- fit8_NL
 source(here::here("rdocs/Pacotes", "diag_norm_mlg.R"))
-37  51  92 108 144 145 355 360 365
+#37  51  92 108 144 145 355 360 365
 # 15  37 127 213 216 217 226 227 229 232 377 380 383
 # 13  14  15  19 37 65  90 117 127 213 216 217 226 227 228 229 230 232 233 239 308 327 377 380 383
 # 13  14  15  19  37  65  90 117 127 213 216 217 226 227 228 229 230 232 233 308 327 377 380 383

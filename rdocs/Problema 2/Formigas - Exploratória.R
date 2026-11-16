@@ -6,6 +6,8 @@ ants <- ants %>%
   dplyr::select(-Site) %>% 
   dplyr::mutate(Habitat = fct_reorder(Habitat, Srich, .fun = median))
 
+caminho_Problema2 <- "resultados/Problema 2/Formiga - Exploratória"
+
 
 #------------------------------------------------------------------------------#---- 
 #                               Correlação                                     #
@@ -21,6 +23,9 @@ ggcorrplot(mat_corr,
            colors = c("firebrick", "white", "steelblue"),
            title = "Matriz de correlação",
            ggtheme = theme_minimal())
+ggsave("Correlacao_Formiga.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
+
+
 #Variáveis tem correlação média com a resposta, e baixa correlação entre si
 
 
@@ -37,6 +42,8 @@ ggplot(ants ,aes(x = Srich)) +
   geom_histogram(bins = 15, fill = "steelblue", color = "white") +
   labs(x = 'Número de espécies de formigas', y = "Frequência") +
   theme_minimal()
+ggsave("Histograma_Srich.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
+
 
 
 ggplot(ants, aes(x = "", y = Srich)) +
@@ -45,6 +52,8 @@ ggplot(ants, aes(x = "", y = Srich)) +
                shape = 18, size = 4, color = "white") +
   labs(x = NULL, y = "Número de espécies de formigas") +
   theme_minimal()
+ggsave("Boxplot_Srich.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
+
 
 #*** Latitude ***#
 psych::describe(Latitude)
@@ -55,6 +64,8 @@ ggplot(ants, aes(x = Latitude)) +
   geom_histogram(bins = 5, fill = "steelblue", color = "white") +
   labs(x = "Latitude (graus decimais)", y = "Frequência") +
   theme_minimal()
+ggsave("Histograma_Latitude.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
+
 
 #*** Elevation ***#
 psych::describe(Elevation)
@@ -65,6 +76,8 @@ ggplot(ants, aes(x = Elevation)) +
   geom_histogram(bins = 15, fill = "steelblue", color = "white") +
   labs(x = "Altitude (m)", y = "Frequência") +
   theme_minimal()
+ggsave("Histograma_Elevate.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
+
 
 #------------------------------------------------------------------------------#---- 
 #                         Relação entre as Variáveis                           #
@@ -77,6 +90,7 @@ ggplot(ants, aes(x = Latitude, y = Srich, color = Habitat)) +
        y = "Número de espécies de formigas",
        color = "Habitat") +
   theme_minimal()
+ggsave("Dispersao_Srich_Latitude.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
 
 
 scatterplot((Srich)~Latitude, regLine = T, smooth=F, boxplots=F, pch=16, xlab="Latitude (em graus decimais) do local",
@@ -90,6 +104,7 @@ ggplot(ants, aes(x = Elevation, y = Srich, color = Habitat)) +
        y = "Número de espécies de formigas",
        color = "Habitat") +
   theme_minimal()
+ggsave("Dispersao_Srich_Elevation.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
 
 
 scatterplot((Srich)~Latitude, regLine = T, smooth=F, boxplots=F, pch=16, xlab="Latitude (em graus decimais) do local",
@@ -107,6 +122,9 @@ ggplot(ants, aes(x = reorder(Habitat, Srich, FUN = median),
        y = "Número de espécies de formigas",
        fill = "Habitat") +
   theme_minimal()
+ggsave("Boxplot_Srich_Habitat.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
+
+
 
 describeBy(ants$Srich, group = ants$Habitat, mat = TRUE)
 tapply(ants$Srich, ants$Habitat, summary)

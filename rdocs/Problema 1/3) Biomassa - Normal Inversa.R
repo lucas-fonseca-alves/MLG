@@ -8,7 +8,7 @@ attach(lime)
 
 # Não utilizar DBH e Age juntas, pois, tem alta multicolinearidade
 #------------------------------------------------------------------------------#---- 
-#                 Modelo Normal Inversa - Ligação Log     (fit 3)                     #
+#                 Modelo Normal Inversa - Ligação Log     (fit 7)                     #
 #------------------------------------------------------------------------------#----
 
 fit1_NIL <- glm(Foliage ~ DBH + Origin , 
@@ -68,8 +68,44 @@ envelope(fit3_NIL, rep=100, conf=0.95, type="pearson")
 #Gráficos de homogeneidade (mas ainda enxergo o homogeneidade como um funil) e Variável z parecem ok 
 fit.model <- fit3_NIL
 source(here::here("rdocs/Pacotes", "diag_ninv.R"))
-# 24, 20
+# 15  20  24 144 210
+# 20, 24
+# 20  21  22  23  24  31  32  75  76 202 209 210 257
+# 20  21  22  23  24  32  75  76 202 209 254 257
+#  22 23
 
+#20, 21, 22, 24, 
+
+fit3_NIL_w20 <- glm(Foliage ~ log(DBH) + Origin ,
+                 family=Gamma(link = "log"),
+                 data = lime,
+                 subset=-c(20));summary(fit3_NIL_w20)
+
+fit3_NIL_w21 <- glm(Foliage ~ log(DBH) + Origin ,
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(21));summary(fit3_NIL_w21)
+
+fit3_NIL_w22 <- glm(Foliage ~ log(DBH) + Origin ,
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(22));summary(fit3_NIL_w22)
+
+fit3_NIL_w24 <- glm(Foliage ~ log(DBH) + Origin ,
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(24));summary(fit3_NIL_w24)
+
+fit3_NIL_w <- glm(Foliage ~ log(DBH) + Origin ,
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(20, 21, 22, 24));summary(fit3_NIL_w)
+
+MR(coef(fit3_NIL), coef(fit3_NIL_w20)) # 0.83 0.76 % 
+MR(coef(fit3_NIL), coef(fit3_NIL_w21)) # 0.83 0.76 % 
+MR(coef(fit3_NIL), coef(fit3_NIL_w22)) # 0.83 0.76 % 
+MR(coef(fit3_NIL), coef(fit3_NIL_w24)) # 0.83 0.76 % 
+MR(coef(fit3_NIL), coef(fit3_NIL_w)) # 0.83 0.76 % 
 
 # envelope(fit4_NIL, rep=100, conf=0.95, type="quantile")
 # envelope(fit4_NIL, rep=100, conf=0.95, type="deviance")
@@ -98,6 +134,42 @@ envelope(fit7_NIL, rep=100, conf=0.95, type="pearson")
 
 fit.model <- fit7_NIL
 source(here::here("rdocs/Pacotes", "diag_ninv.R"))
+# 20 24
+# 20 24
+# 20 21 22 23  24  31  32  75  76 190 193 209 210 255 256 257
+# 20  21  22  23  24  32  75  76 190 193 209 210 254 255 257
+
+
+fit7_NIL_w20 <- glm(Foliage ~ log(DBH),   
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(20));summary(fit7_NIL_w20)
+
+fit7_NIL_w21 <- glm(Foliage ~ log(DBH), 
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(21));summary(fit7_NIL_w21)
+
+fit7_NIL_w22 <- glm(Foliage ~ log(DBH), 
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(22));summary(fit7_NIL_w22)
+
+fit7_NIL_w24 <- glm(Foliage ~ log(DBH), 
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(24));summary(fit7_NIL_w24)
+
+fit7_NIL_w <- glm(Foliage ~ log(DBH), 
+                  family=Gamma(link = "log"),
+                  data = lime,
+                  subset=-c(20, 21, 22, 24));summary(fit7_NIL_w)
+
+MR(coef(fit7_NIL), coef(fit7_NIL_w20)) # 0.83 0.76 % 
+MR(coef(fit7_NIL), coef(fit7_NIL_w21)) # 0.83 0.76 % 
+MR(coef(fit7_NIL), coef(fit7_NIL_w22)) # 0.83 0.76 % 
+MR(coef(fit7_NIL), coef(fit7_NIL_w24)) # 0.83 0.76 % 
+MR(coef(fit7_NIL), coef(fit7_NIL_w)) # 0.83 0.76 % 
 
 
 #Aplicar o Log não fez muita diferença no Envelope

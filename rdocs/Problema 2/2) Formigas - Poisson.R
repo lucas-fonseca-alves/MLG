@@ -9,6 +9,9 @@ ants <- ants %>%
 
 attach(ants)
 
+
+caminho_Problema2 <- "resultados/Problema 2/Formiga - Poisson"
+
 #------------------------------------------------------------------------------#---- 
 #               Modelo Poisson - Ligação Log                                   #
 #------------------------------------------------------------------------------#----
@@ -122,6 +125,18 @@ envelope(fit2_PL, rep=100, conf=0.95, type="pearson")
 #Numa visualização geral, ficou bom o ajuste. verificar os pontos
 fit.model <- fit2_PL
 source(here::here("rdocs/Pacotes", "diag_pois.R"))
+#1  3  4 25
+#  1  3 13 25
+#1  3 13 25 35
+# 25 
+
+fit1_PL_w <- glm(Srich ~ Latitude + Elevation + Habitat , 
+                 family=poisson(link = "log"),
+                 data = ants,
+                 subset=-c(3,7,8,25,29));summary(fit1_PL_w)
+
+#***mudança nas estimativas***#
+MR(coef(fit1_PL), coef(fit1_PL_w3)) #tERMINAR MUDANÇA RELATIVA
 
 
 #Envelope não fica tão bom quanto os outros.
@@ -132,3 +147,56 @@ envelope(fit3_PL, rep=100, conf=0.95, type="pearson")
 #Numa visualização geral, ficou bom o ajuste. verificar os pontos
 fit.model <- fit3_PL
 source(here::here("rdocs/Pacotes", "diag_pois.R"))
+
+
+
+
+#-----------------------Gerando 10 gráficos de envelope------------------------#----
+
+
+#*** Fit1_PL ***#
+# Abra um dispositivo PDF com tamanho grande (em polegadas)
+
+pdf(file.path(caminho_Problema2, "Fit1_PL-Envelopes.pdf"),
+    width = 12, height = 15)
+
+# Defina o layout e as margens
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+# Plote os 10 gráficos
+envelope(fit1_PL, rep = 100, conf = 0.95, type = "quantile", main = "")
+# ... (outros 9 gráficos)
+
+# Feche o dispositivo para finalizar o arquivo
+dev.off()
+
+#*** Fit2_PL ***#
+
+pdf(file.path(caminho_Problema2, "Fit2_PL-Envelopes.pdf"),
+    width = 12, height = 15)
+
+# Defina o layout e as margens
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+# Plote os 10 gráficos
+envelope(fit2_PL, rep = 100, conf = 0.95, type = "quantile", main = "")
+# ... (outros 9 gráficos)
+
+# Feche o dispositivo para finalizar o arquivo
+dev.off()
+
+
+#*** Fit3_PL ***#
+
+pdf(file.path(caminho_Problema2, "Fit3_PL-Envelopes.pdf"),
+    width = 12, height = 15)
+
+# Defina o layout e as margens
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+# Plote os 10 gráficos
+envelope(fit3_PL, rep = 100, conf = 0.95, type = "quantile", main = "")
+# ... (outros 9 gráficos)
+
+# Feche o dispositivo para finalizar o arquivo
+dev.off()

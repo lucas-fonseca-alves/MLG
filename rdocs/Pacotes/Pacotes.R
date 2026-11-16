@@ -10,6 +10,8 @@ library(GLMsData)
 library(tidyverse)
 library(psych)
 library(ggcorrplot)
+library(patchwork) #Usado para colocar os gráficos em grid
+
 
 
 #Para os modelos de MLG
