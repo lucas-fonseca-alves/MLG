@@ -10,7 +10,7 @@ attach(lime)
 
 caminho_Problema1 <- "resultados/Problema 1/Biomassa - Exploratória"
 
-n#------------------------------------------------------------------------------#---- 
+#------------------------------------------------------------------------------#---- 
 #               Correlação e medidas resumo gerais                             #
 #------------------------------------------------------------------------------#----
 
@@ -78,9 +78,9 @@ ggsave("Boxplot_DBH.pdf",path = caminho_Problema1, width = 158, height = 93, uni
 
 
 #*** Age ***# 
-psych::describe(log(Age))
+psych::describe(Age)
 
-summary(log(Age))
+summary(Age)
 
 ggplot(lime ,aes(x = Age)) +
   geom_histogram(bins = 15, fill = "steelblue", color = "white") +
@@ -140,6 +140,8 @@ p4 <- ggplot(lime, aes(x = log(DBH), y = log(Foliage), color = Origin)) +
        y = "Log Biomassa da Folhagem",
        color = "Origem") +
   theme_minimal()
+
+cor(log(lime$DBH), log(lime$Foliage))
 
 
 #Usando o pacote patchwork
@@ -222,6 +224,8 @@ combinado <- (p5 + p6) / plot_spacer() / (p7 + p8) +
     plot.margin = margin(3, 3, 3, 3, "pt")  # margem menor para sobrar espaço
   )
 
+cor(log(lime$Age), log(lime$Foliage))
+
 
 # 3. Salve o objeto 'combinado', não os gráficos individuais
 ggsave(
@@ -251,6 +255,7 @@ ggsave("Boxplot_Biomassa_Origin.pdf",path = caminho_Problema1, width = 158, heig
 describeBy(lime$Foliage, group = lime$Origin, mat = TRUE)
 tapply(lime$Foliage, lime$Origin, summary)
 
+table(lime$Origin)
 #Todas as relações são assime´tricas, e com outliers
 # Planted é a que tem maior variancia, natural é a que mais compacta
 #Copiece é a mais próxima de uma simetria

@@ -9,6 +9,9 @@ nminer <- nminer %>%
                 Grazed = factor(Grazed, levels = c(0, 1)),
                 Shrubs = factor(Shrubs, levels = c(0, 1)))
 attach(nminer)
+
+caminho_Problema3 <- "resultados/Problema 3/nminer - Binomial"
+
 #------------------------------------------------------------------------------#---- 
 #               Modelo Binomial - Ligação Logito (fit8 ganhou)                 #
 #------------------------------------------------------------------------------#----
@@ -95,10 +98,13 @@ fit8_Blogit <- glm(Miners ~ Bulokes + Timber + Shrubs,
                    family = binomial(link = "logit"),
                    data = nminer);summary(fit8_Blogit)
 
-fit9_Blogit <- glm(Miners ~ Bulokes,
+fit9_Blogit <- glm(Miners ~ Bulokes + Timber + Shrubs + Area,
                    family = binomial(link = "logit"),
                    data = nminer);summary(fit9_Blogit)
 
+fit10_Blogit <- glm(Miners ~ Bulokes,
+                   family = binomial(link = "logit"),
+                   data = nminer);summary(fit10_Blogit)
 
 ##**********************************Diagnóstico**********************************#----
 #*** Envelope ***#
@@ -168,6 +174,9 @@ source(here::here("rdocs/Pacotes", "diag_bino.R"))
 # RCD x Valor Ajustado: 18, 28 (Nesse caso escolhi os pontos extremos mais isolados, 
 # mas sem uma justificativa direta, apenas intuição)
 
+# 18 - aparece 13x
+# 28 - aparece 11x
+
 #*** Mudança Relativa ***#
 fit1_Blogit_w18 <- glm(Miners ~ Eucs,
                        family = binomial(link = "logit"),
@@ -194,7 +203,9 @@ fit1_Blogit_w <- glm(Miners ~ Eucs,
 MR(coef(fit1_Blogit), coef(fit1_Blogit_w18)) # 73.01 58.15 % (PROBLEMMÁTICO)
 MR(coef(fit1_Blogit), coef(fit1_Blogit_w28)) # 16.87 25.83 % 
 MR(coef(fit1_Blogit), coef(fit1_Blogit_w))   # 277.82 270.81 % (PROBLEMÁTICO)
- 
+
+vif(fit1_Blogit)
+
 
 fit.model <- fit2_Blogit
 source(here::here("rdocs/Pacotes", "diag_bino.R"))
@@ -469,9 +480,9 @@ MR(coef(fit7_Blogit), coef(fit7_Blogit_w))
 fit.model <- fit8_Blogit
 source(here::here("rdocs/Pacotes", "diag_bino.R"))
 # 2, 8, 10, 13
-# 2, 10, 18, 28
-# 18, 20
-# 18, 28
+# 8, 11, 14
+# 8, 14, 29, 28
+# 8 14
 
 summary(fit8_Blogit)
 fit8_Blogit_w2 <- glm(Miners ~ Bulokes + Timber + Shrubs,
@@ -483,6 +494,11 @@ fit8_Blogit_w10 <- glm(Miners ~ Bulokes + Timber + Shrubs,
                       family = binomial(link = "logit"),
                       data = nminer,
                       subset=-c(10));summary(fit8_Blogit_w10)
+summary(fit8_Blogit)
+fit8_Blogit_w14 <- glm(Miners ~ Bulokes + Timber + Shrubs,
+                       family = binomial(link = "logit"),
+                       data = nminer,
+                       subset=-c(14));summary(fit8_Blogit_w14)
 
 summary(fit8_Blogit)
 fit8_Blogit_w18 <- glm(Miners ~ Bulokes + Timber + Shrubs,
@@ -495,20 +511,229 @@ fit8_Blogit_w28 <- glm(Miners ~ Bulokes + Timber + Shrubs,
                        data = nminer,
                        subset=-c(28));summary(fit8_Blogit_w28)
 
+fit8_Blogit_w29 <- glm(Miners ~ Bulokes + Timber + Shrubs,
+                       family = binomial(link = "logit"),
+                       data = nminer,
+                       subset=-c(29));summary(fit8_Blogit_w29)
+
 fit8_Blogit_w <- glm(Miners ~ Bulokes + Timber + Shrubs,
                        family = binomial(link = "logit"),
                        data = nminer,
-                       subset=-c(2, 10, 28, 28));summary(fit8_Blogit_w)
+                       subset=-c(2, 8, 10, 14, 18, 28, 29));summary(fit8_Blogit_w)
 
 MR(coef(fit8_Blogit), coef(fit8_Blogit_w2))   #0.31 8.58 -6.22 -14.45 %
-MR(coef(fit8_Blogit), coef(fit8_Blogit_w10))  #-6.39 2.4 -10.55 -10.21 % 
-MR(coef(fit8_Blogit), coef(fit8_Blogit_w18))  #-5.45 -3.73 -4.88 -6.83 %
-MR(coef(fit8_Blogit), coef(fit8_Blogit_w28))  #5.03 8.49 3.42 -10.81 % 
-MR(coef(fit8_Blogit), coef(fit8_Blogit_w))    #-0.21 24.06 -14.66 -41.45 %
+MR(coef(fit8_Blogit), coef(fit8_Blogit_w10))  #-6.39 2.4 -10.55 -10.21 %
+MR(coef(fit8_Blogit), coef(fit8_Blogit_w14))  #57.47 40.23 65.54 63.99 %
+MR(coef(fit8_Blogit), coef(fit8_Blogit_w18))  #-5.45 -3.73 -4.88 -6.83 % 
+MR(coef(fit8_Blogit), coef(fit8_Blogit_w28))  #5.03 8.49 3.42 -10.81 %
+MR(coef(fit8_Blogit), coef(fit8_Blogit_w29))  #-0.47 -6.03 11.41 -3.27 % 
+MR(coef(fit8_Blogit), coef(fit8_Blogit_w))    #54.58 54.62 62.05 12.53 %  
 
+vif(fit8_Blogit)
 
 fit.model <- fit9_Blogit
 source(here::here("rdocs/Pacotes", "diag_bino.R"))
+
+#8 11 14
+# 2,21, 
+# 8, 14
+
+fit9_Blogit_w2 <- glm(Miners ~ Bulokes + Timber + Shrubs + Area,,
+                     family = binomial(link = "logit"),
+                     data = nminer,
+                     subset=-c(2));summary(fit9_Blogit_w2)
+
+fit9_Blogit_w8 <- glm(Miners ~ Bulokes + Timber + Shrubs + Area,,
+                      family = binomial(link = "logit"),
+                      data = nminer,
+                      subset=-c(2, 8, 11, 14, 21));summary(fit9_Blogit_w8)
+
+fit9_Blogit_w11 <- glm(Miners ~ Bulokes + Timber + Shrubs + Area,,
+                      family = binomial(link = "logit"),
+                      data = nminer,
+                      subset=-c(11));summary(fit9_Blogit_w11)
+
+fit9_Blogit_w14 <- glm(Miners ~ Bulokes + Timber + Shrubs + Area,,
+                      family = binomial(link = "logit"),
+                      data = nminer,
+                      subset=-c( 14));summary(fit9_Blogit_w14)
+
+fit9_Blogit_w21 <- glm(Miners ~ Bulokes + Timber + Shrubs + Area,,
+                       family = binomial(link = "logit"),
+                       data = nminer,
+                       subset=-c(21));summary(fit9_Blogit_w21)
+
+fit9_Blogit_w <- glm(Miners ~ Bulokes + Timber + Shrubs + Area,,
+                      family = binomial(link = "logit"),
+                      data = nminer,
+                      subset=-c(2, 8, 11, 14, 21));summary(fit9_Blogit_w)
+
+
+MR(coef(fit9_Blogit), coef(fit9_Blogit_w2))   #0.31 8.58 -6.22 -14.45 %
+MR(coef(fit9_Blogit), coef(fit9_Blogit_w8))  #-6.39 2.4 -10.55 -10.21 %
+MR(coef(fit9_Blogit), coef(fit9_Blogit_w11))  #57.47 40.23 65.54 63.99 %
+MR(coef(fit9_Blogit), coef(fit9_Blogit_w14))  #-5.45 -3.73 -4.88 -6.83 % 
+MR(coef(fit9_Blogit), coef(fit9_Blogit_w21))  #5.03 8.49 3.42 -10.81 %
+MR(coef(fit9_Blogit), coef(fit9_Blogit_w))    #54.58 54.62 62.05 12.53 % 
+
+
+
+
+
+
+#-----------------------Gerando 10 gráficos de envelope------------------------#----
+
+#*** fit8_Blogit ***#
+# Abra um dispositivo PDF com tamanho grande (em polegadas)
+
+pdf(file.path(caminho_Problema3, "Fit8_Blogit-Envelopes_Anexo.pdf"),
+    width = 12, height = 15)
+
+# Defina o layout e as margens
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+# Plote os 10 gráficos
+envelope(fit8_Blogit, rep = 100, conf = 0.95, type = "quantile", main = "")
+# ... (outros 9 gráficos)
+
+# Feche o dispositivo para finalizar o arquivo
+dev.off()
+
+
+
+#*** fit1_Blogit ***#
+# Abra um dispositivo PDF com tamanho grande (em polegadas)
+
+pdf(file.path(caminho_Problema3, "Fit1_Blogit-Envelopes_Anexo.pdf"),
+    width = 12, height = 15)
+
+# Defina o layout e as margens
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+# Plote os 10 gráficos
+envelope(fit1_Blogit, rep = 100, conf = 0.95, type = "quantile", main = "")
+# ... (outros 9 gráficos)
+
+# Feche o dispositivo para finalizar o arquivo
+dev.off()
+
+
+
+#-------------------------------------------------------------------------------#----
+
+#-----------------Gerando 10 independencia (quantílica)------------------------#----
+
+#*** fit8_Blogit ***#
+fit.model <- fit8_Blogit
+
+# --- Resíduos quantílicos aleatorizados ---
+pdf(file.path(caminho_Problema3, "Fit8_Blogit-Independencia(Quantílica)_Anexo.pdf"),
+    width = 12, height = 15)
+
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+
+resq <- qresid(fit.model)
+
+a <- max(resq)
+b <- min(resq)
+
+# Defina o layout e as margens
+
+# (3) Resíduo quantílico vs. índice
+plot(resq, xlab = "Índice", ylab = "Resíduo Quantílico",
+     ylim = c(b - 1, a + 1), pch = 16)
+abline(2, 0, lty = 2)
+abline(-2, 0, lty = 2)
+#identify(resq)
+# 1  3 13 14 25 29 (Valores únicos que aparecem nos 10 gráficos gerados)
+dev.off()
+
+
+#*** fit1_Blogit ***#
+fit.model <- fit1_Blogit
+
+# --- Resíduos quantílicos aleatorizados ---
+pdf(file.path(caminho_Problema3, "Fit1_Blogit-Independencia(Quantílica)_Anexo.pdf"),
+    width = 12, height = 15)
+
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+
+resq <- qresid(fit.model)
+
+a <- max(resq)
+b <- min(resq)
+
+# Defina o layout e as margens
+
+# (3) Resíduo quantílico vs. índice
+plot(resq, xlab = "Índice", ylab = "Resíduo Quantílico",
+     ylim = c(b - 1, a + 1), pch = 16)
+abline(2, 0, lty = 2)
+abline(-2, 0, lty = 2)
+#identify(resq)
+# 1  3 13 14 25 29 (Valores únicos que aparecem nos 10 gráficos gerados)
+dev.off()
+
+#-------------------------------------------------------------------------------#----
+
+#------------------Gerando 10 gráficos de homocedasticidade------------------#----
+#*** fit8_Blogit ***# #
+fit.model <- fit8_Blogit
+
+# --- Resíduos quantílicos aleatorizados ---
+pdf(file.path(caminho_Problema3, "Fit8_Blogit-Homocedasticidade(Quantílica)_Anexo.pdf"),
+    width = 12, height = 15)
+
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+
+# --- Resíduos quantílicos aleatorizados ---
+resq <- qresid(fit.model)
+
+a <- max(resq)
+b <- min(resq)
+
+# (4) Resíduo quantílico vs. valores ajustados
+plot(fitted(fit.model), resq,
+     xlab = "Valor Ajustado", ylab = "Resíduo Quantílico",
+     ylim = c(b - 1, a + 1), pch = 16)
+abline(2, 0, lty = 2)
+abline(-2, 0, lty = 2)
+#identify(fitted(fit.model), resq)
+
+dev.off()
+
+
+#*** fit8_Blogit ***# #
+fit.model <- fit1_Blogit
+
+# --- Resíduos quantílicos aleatorizados ---
+pdf(file.path(caminho_Problema3, "Fit1_Blogit-Homocedasticidade(Quantílica)_Anexo.pdf"),
+    width = 12, height = 15)
+
+par(mfrow = c(5, 2), mar = c(2.5, 2.5, 1.5, 1.5))
+
+
+# --- Resíduos quantílicos aleatorizados ---
+resq <- qresid(fit.model)
+
+a <- max(resq)
+b <- min(resq)
+
+# (4) Resíduo quantílico vs. valores ajustados
+plot(fitted(fit.model), resq,
+     xlab = "Valor Ajustado", ylab = "Resíduo Quantílico",
+     ylim = c(b - 1, a + 1), pch = 16)
+abline(2, 0, lty = 2)
+abline(-2, 0, lty = 2)
+#identify(fitted(fit.model), resq)
+
+dev.off()
+
+#-------------------------------------------------------------------------------#----
+
 
 #------------------------------------------------------------------------------#---- 
 #               Modelo Binomial - Ligação Probito                               #
@@ -725,6 +950,5 @@ envelope(fit3_Bcauchit, rep=100, conf=0.95, type="pearson")
 fit.model <- fit3_Bcauchit
 source(here::here("rdocs/Pacotes", "diag_bino.R"))
 #-------------------------------------------------------------------------------#----
-
 
 

@@ -1,11 +1,12 @@
 source(here::here("rdocs/Pacotes", "Pacotes.R"))
 
-data(ants); attach(ants)
+data(ants);
 
 ants <- ants %>% 
   dplyr::select(-Site) %>% 
   dplyr::mutate(Habitat = fct_reorder(Habitat, Srich, .fun = median))
 
+attach(ants)
 caminho_Problema2 <- "resultados/Problema 2/Formiga - Exploratória"
 
 

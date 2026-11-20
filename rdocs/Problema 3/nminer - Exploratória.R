@@ -10,6 +10,9 @@ nminer <- nminer %>%
                 Shrubs = factor(Shrubs, levels = c(0, 1)))
 
 attach(nminer)
+
+caminho_Problema3 <- "resultados/Problema 3/nminer - Exploratória"
+
 #------------------------------------------------------------------------------#---- 
 #   Correlação (Só para as variáveis contínuas, verificar multicolinearidade)  #
 #------------------------------------------------------------------------------#----
@@ -25,6 +28,8 @@ nminer %>%
              colors = c("firebrick", "white", "steelblue"),
              title = "Matriz de correlação",
              ggtheme = theme_minimal())
+
+ggsave("Correlacao_nminer.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
 
 
 # EUCS é a variável que tem maior correlação 0.73 com Miners
@@ -52,6 +57,8 @@ ggplot(nminer, aes(x = Miners)) +
   labs(x = "Presença de noisy miners", y = "Frequência") +
   theme_minimal()
 
+ggsave("Frequencia_nminer.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 #*** Grazed ***#
 
 ggplot(nminer, aes(x = Grazed)) +
@@ -59,12 +66,18 @@ ggplot(nminer, aes(x = Grazed)) +
   labs(x = "Se a área foi pastada", y = "Frequência") +
   theme_minimal()
 
+ggsave("Frequencia_Grazed.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
 #*** Shrubs ***#
 
 ggplot(nminer, aes(x = Shrubs)) +
   geom_bar(fill = "steelblue", color = "white") +
   labs(x = "Se havia arbustos presentes na área", y = "Frequência") +
   theme_minimal()
+
+ggsave("Frequencia_Shrubs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 #*** Eucs ***#
 psych::describe(Eucs)
@@ -76,6 +89,9 @@ ggplot(nminer ,aes(x = Eucs)) +
   labs(x = 'Número de árvores de eucalipto', y = "Frequência") +
   theme_minimal()
 
+ggsave("Histograma_Eucs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
 ggplot(nminer, aes(x = "", y = Eucs)) +
   geom_boxplot(fill = "steelblue", alpha = 0.7) +
   stat_summary(fun = mean, geom = "point",
@@ -83,6 +99,7 @@ ggplot(nminer, aes(x = "", y = Eucs)) +
   labs(x = NULL, y = "Número de árvores de eucalipto") +
   theme_minimal()
 
+ggsave("Boxplot_Eucs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
 
 #*** Bulokes ***#
 psych::describe(Bulokes)
@@ -94,12 +111,18 @@ ggplot(nminer ,aes(x = Bulokes)) +
   labs(x = 'Número de árvores de Bulokes', y = "Frequência") +
   theme_minimal()
 
+ggsave("Boxplot_Bulokes.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
 ggplot(nminer, aes(x = "", y = Bulokes)) +
   geom_boxplot(fill = "steelblue", alpha = 0.7) +
   stat_summary(fun = mean, geom = "point",
                shape = 18, size = 4, color = "white") +
   labs(x = NULL, y = "Número de árvores de Bulokes") +
   theme_minimal()
+
+ggsave("Boxplot_Bulokes.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 #*** Area ***#
 psych::describe(Area)
@@ -110,6 +133,8 @@ ggplot(nminer ,aes(x = Area)) +
   geom_histogram(bins = 7, fill = "steelblue", color = "white") +
   labs(x = 'Área do fragmento remanescente contínuo de vegetação', y = "Frequência") +
   theme_minimal()
+ggsave("Histograma_Area.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 ggplot(nminer, aes(x = "", y = Area)) +
   geom_boxplot(fill = "steelblue", alpha = 0.7) +
@@ -117,6 +142,9 @@ ggplot(nminer, aes(x = "", y = Area)) +
                shape = 18, size = 4, color = "white") +
   labs(x = NULL, y = "Área do fragmento remanescente contínuo de vegetação") +
   theme_minimal()
+
+ggsave("Boxplot_Area.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 #*** Timber ***#
 psych::describe(Timber)
@@ -128,12 +156,17 @@ ggplot(nminer ,aes(x = Timber)) +
   labs(x = 'Número de pedaços de madeira caída', y = "Frequência") +
   theme_minimal()
 
+ggsave("Histograma_Timber.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
 ggplot(nminer, aes(x = "", y = Timber)) +
   geom_boxplot(fill = "steelblue", alpha = 0.7) +
   stat_summary(fun = mean, geom = "point",
                shape = 18, size = 4, color = "white") +
   labs(x = NULL, y = "Número de pedaços de madeira caída") +
   theme_minimal()
+
+ggsave("Boxplot_Timber.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
 
 
 #------------------------------------------------------------------------------#---- 
@@ -153,6 +186,8 @@ ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Miners))) +
   theme_minimal()+
   theme(legend.position = "none")
 
+ggsave("Dispersao_Miners_Eucs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 ggplot(nminer, aes(x = Miners,
                  y = Eucs,
@@ -165,6 +200,9 @@ ggplot(nminer, aes(x = Miners,
        fill = "Miners") +
   theme_minimal()+
   theme(legend.position = "none")
+
+ggsave("Boxplot_Miners_Eucs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 describeBy(nminer$Eucs, group = nminer$Miners, mat = TRUE)
 tapply(nminer$Eucs, nminer$Miners, summary)
@@ -180,6 +218,9 @@ ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Miners))) +
   theme_minimal()+
   theme(legend.position = "none")
 
+ggsave("Dispersão_Miners_Bulokes.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
 ggplot(nminer, aes(x = Miners,
                    y = Bulokes,
                    fill = Miners)) +
@@ -191,6 +232,9 @@ ggplot(nminer, aes(x = Miners,
        fill = "Miners") +
   theme_minimal()+
   theme(legend.position = "none")
+
+ggsave("Boxplot_Miners_Bulokes.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 describeBy(nminer$Bulokes, group = nminer$Miners, mat = TRUE)
 tapply(nminer$Bulokes, nminer$Miners, summary)
@@ -206,6 +250,9 @@ ggplot(nminer, aes(x = Area, y = Miners, color = factor(Miners))) +
   theme_minimal()+
   theme(legend.position = "none")
 
+ggsave("Dispersao_Miners_Area.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
 ggplot(nminer, aes(x = Miners,
                    y = Area,
                    fill = Miners)) +
@@ -217,6 +264,9 @@ ggplot(nminer, aes(x = Miners,
        fill = "Miners") +
   theme_minimal()+
   theme(legend.position = "none")
+
+ggsave("Boxplot_Miners_Area.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 describeBy(nminer$Area, group = nminer$Miners, mat = TRUE)
 tapply(nminer$Area, nminer$Miners, summary)
@@ -233,6 +283,9 @@ ggplot(nminer, aes(x = Timber, y = Miners, color = factor(Miners))) +
   theme_minimal()+
   theme(legend.position = "none")
 
+ggsave("Dispersao_Miners_Timber.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
 ggplot(nminer, aes(x = Miners,
                    y = Timber,
                    fill = Miners)) +
@@ -244,6 +297,9 @@ ggplot(nminer, aes(x = Miners,
        fill = "Miners") +
   theme_minimal()+
   theme(legend.position = "none")
+
+ggsave("Boxplot_Miners_Timber.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 describeBy(nminer$Timber, group = nminer$Miners, mat = TRUE)
 tapply(nminer$Timber, nminer$Miners, summary)
@@ -257,6 +313,10 @@ ggplot(nminer, aes(x = Grazed, fill = factor(Miners))) +
   labs(x = "Se a área foi pastada", y = "Proporção", fill = "Miners") +
   theme_minimal()
 
+ggsave("Barras_Miners_Grazed.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
+#*** Miners x Eucs x Grazed***#
 ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Grazed))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
   scale_color_manual(values = cores_y) +
@@ -265,6 +325,10 @@ ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Grazed))) +
        color = "Área pastada?") +
   theme_minimal()
 
+ggsave("Dispersao_Miners_Eucs_Grazed.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
+
+#*** Miners x Bulokes x Grazed***#
 ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Grazed))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
   scale_color_manual(values = cores_y) +
@@ -272,7 +336,10 @@ ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Grazed))) +
        y = "Miners (0/1)", 
        color = "Área pastada?") +
   theme_minimal()
+ggsave("Dispersao_Miners_Bulokes_Grazed.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
 
+
+#*** Miners x Area x Grazed***#
 ggplot(nminer, aes(x = Area, y = Miners, color = factor(Grazed))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
   scale_color_manual(values = cores_y) +
@@ -280,7 +347,9 @@ ggplot(nminer, aes(x = Area, y = Miners, color = factor(Grazed))) +
        y = "Miners (0/1)", 
        color = "Área pastada?") +
   theme_minimal()
+ggsave("Dispersao_Miners_Area_Grazed.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
 
+#*** Miners x Timber x Grazed ***#
 ggplot(nminer, aes(x = Timber, y = Miners, color = factor(Grazed))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
   scale_color_manual(values = cores_y) +
@@ -288,6 +357,8 @@ ggplot(nminer, aes(x = Timber, y = Miners, color = factor(Grazed))) +
        y = "Miners (0/1)", 
        color = "Área pastada?") +
   theme_minimal()
+ggsave("Dispersao_Miners_Timber_Grazed.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 #*** Miners x Shrubs ***#
 
@@ -298,6 +369,8 @@ ggplot(nminer, aes(x = Shrubs, fill = factor(Miners))) +
   geom_bar(position = "fill", color = "white") +
   labs(x = "Se havia arbusto presentes na área", y = "Proporção", fill = "Miners") +
   theme_minimal()
+ggsave("Barras_Miners_Shrubs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Shrubs))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
@@ -306,6 +379,8 @@ ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Shrubs))) +
        y = "Miners (0/1)", 
        color = "Arbusto presentes na área?") +
   theme_minimal()
+ggsave("Dispersao_Miners_Eucs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Shrubs))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
@@ -314,6 +389,8 @@ ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Shrubs))) +
        y = "Miners (0/1)", 
        color = "Arbusto presentes na área?") +
   theme_minimal()
+ggsave("Dispersao_Miners_Bulokes_Shrubs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 ggplot(nminer, aes(x = Area, y = Miners, color = factor(Shrubs))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
@@ -322,6 +399,8 @@ ggplot(nminer, aes(x = Area, y = Miners, color = factor(Shrubs))) +
        y = "Miners (0/1)", 
        color = "Arbusto presentes na área?") +
   theme_minimal()
+ggsave("Dispersao_Miners_Area_Shrubs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+
 
 ggplot(nminer, aes(x = Timber, y = Miners, color = factor(Shrubs))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
@@ -330,6 +409,7 @@ ggplot(nminer, aes(x = Timber, y = Miners, color = factor(Shrubs))) +
        y = "Miners (0/1)", 
        color = "Arbusto presentes na área?") +
   theme_minimal()
+ggsave("Dispersao_Miners_Timber_Shrubs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
 
 
 #------------------------------------------------------------------------------#----

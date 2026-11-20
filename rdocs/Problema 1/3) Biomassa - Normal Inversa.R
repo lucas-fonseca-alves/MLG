@@ -8,7 +8,7 @@ attach(lime)
 
 # Não utilizar DBH e Age juntas, pois, tem alta multicolinearidade
 #------------------------------------------------------------------------------#---- 
-#                 Modelo Normal Inversa - Ligação Log     (fit 7)                     #
+#                 Modelo Normal Inversa - Ligação Log     (fit 3, levemente melhor no evenlope, e entre o 3 e 7 a homocedasticidade não muda muito)                     #
 #------------------------------------------------------------------------------#----
 
 fit1_NIL <- glm(Foliage ~ DBH + Origin , 
@@ -77,27 +77,27 @@ source(here::here("rdocs/Pacotes", "diag_ninv.R"))
 #20, 21, 22, 24, 
 
 fit3_NIL_w20 <- glm(Foliage ~ log(DBH) + Origin ,
-                 family=Gamma(link = "log"),
+                 family=inverse.gaussian(link = "log"),
                  data = lime,
                  subset=-c(20));summary(fit3_NIL_w20)
 
 fit3_NIL_w21 <- glm(Foliage ~ log(DBH) + Origin ,
-                    family=Gamma(link = "log"),
+                    family=inverse.gaussian(link = "log"),
                     data = lime,
                     subset=-c(21));summary(fit3_NIL_w21)
 
 fit3_NIL_w22 <- glm(Foliage ~ log(DBH) + Origin ,
-                    family=Gamma(link = "log"),
+                    family=inverse.gaussian(link = "log"),
                     data = lime,
                     subset=-c(22));summary(fit3_NIL_w22)
 
 fit3_NIL_w24 <- glm(Foliage ~ log(DBH) + Origin ,
-                    family=Gamma(link = "log"),
+                    family=inverse.gaussian(link = "log"),
                     data = lime,
                     subset=-c(24));summary(fit3_NIL_w24)
 
 fit3_NIL_w <- glm(Foliage ~ log(DBH) + Origin ,
-                    family=Gamma(link = "log"),
+                    family=inverse.gaussian(link = "log"),
                     data = lime,
                     subset=-c(20, 21, 22, 24));summary(fit3_NIL_w)
 
@@ -138,37 +138,43 @@ source(here::here("rdocs/Pacotes", "diag_ninv.R"))
 # 20 24
 # 20 21 22 23  24  31  32  75  76 190 193 209 210 255 256 257
 # 20  21  22  23  24  32  75  76 190 193 209 210 254 255 257
-
+# 22, 23
 
 fit7_NIL_w20 <- glm(Foliage ~ log(DBH),   
-                    family=Gamma(link = "log"),
+                    family=inverse.gaussian(link = "log"),
                     data = lime,
                     subset=-c(20));summary(fit7_NIL_w20)
 
 fit7_NIL_w21 <- glm(Foliage ~ log(DBH), 
-                    family=Gamma(link = "log"),
+                    family=inverse.gaussian(link = "log"),
                     data = lime,
                     subset=-c(21));summary(fit7_NIL_w21)
 
 fit7_NIL_w22 <- glm(Foliage ~ log(DBH), 
-                    family=Gamma(link = "log"),
+                    family=inverse.gaussian(link = "log"),
                     data = lime,
                     subset=-c(22));summary(fit7_NIL_w22)
 
 fit7_NIL_w24 <- glm(Foliage ~ log(DBH), 
-                    family=Gamma(link = "log"),
+                    family=inverse.gaussian(link = "log"),
                     data = lime,
                     subset=-c(24));summary(fit7_NIL_w24)
+fit7_NIL_w257 <- glm(Foliage ~ log(DBH), 
+                    family=inverse.gaussian(link = "log"),
+                    data = lime,
+                    subset=-c(257));summary(fit7_NIL_w257)
+
 
 fit7_NIL_w <- glm(Foliage ~ log(DBH), 
-                  family=Gamma(link = "log"),
+                  family=inverse.gaussian(link = "log"),
                   data = lime,
-                  subset=-c(20, 21, 22, 24));summary(fit7_NIL_w)
+                  subset=-c(20, 21, 22, 24, 257));summary(fit7_NIL_w)
 
 MR(coef(fit7_NIL), coef(fit7_NIL_w20)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w21)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w22)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w24)) # 0.83 0.76 % 
+MR(coef(fit7_NIL), coef(fit7_NIL_w257)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w)) # 0.83 0.76 % 
 
 
