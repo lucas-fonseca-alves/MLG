@@ -125,7 +125,8 @@ MR(coef(fit6_GL), coef(fit6_GL_w)) # 8.32 6.44 28.33 13.71 %
 
 
 
-envelope(fit7_GL, rep=100, conf=0.95, type="quantile")
+envelope(fit7_GL, rep = 100, conf = 0.95, type = "quantile", identify = 3)
+
 envelope(fit7_GL, rep=100, conf=0.95, type="deviance")
 envelope(fit7_GL, rep=100, conf=0.95, type="pearson")
 
@@ -143,6 +144,11 @@ fit7_GL_w20 <- glm(Foliage ~ log(DBH),
                    data = lime,
                    subset=-c(20));summary(fit7_GL_w20)
 
+fit7_GL_w21 <- glm(Foliage ~ log(DBH), 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(21));summary(fit7_GL_w21)
+
 fit7_GL_w22 <- glm(Foliage ~ log(DBH), 
                    family=Gamma(link = "log"),
                    data = lime,
@@ -153,6 +159,21 @@ fit7_GL_w23 <- glm(Foliage ~ log(DBH),
                    data = lime,
                    subset=-c(23));summary(fit7_GL_w23)
 
+fit7_GL_w32 <- glm(Foliage ~ log(DBH), 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(32));summary(fit7_GL_w32)
+
+fit7_GL_w226 <- glm(Foliage ~ log(DBH), 
+                   family=Gamma(link = "log"),
+                   data = lime,
+                   subset=-c(226));summary(fit7_GL_w226)
+
+fit7_GL_w344 <- glm(Foliage ~ log(DBH), 
+                    family=Gamma(link = "log"),
+                    data = lime,
+                    subset=-c(344));summary(fit7_GL_w344)
+
 fit7_GL_w377 <- glm(Foliage ~ log(DBH), 
                    family=Gamma(link = "log"),
                    data = lime,
@@ -161,13 +182,17 @@ fit7_GL_w377 <- glm(Foliage ~ log(DBH),
 fit7_GL_w <- glm(Foliage ~ log(DBH), 
                     family=Gamma(link = "log"),
                     data = lime,
-                    subset=-c(20, 22, 23, 377));summary(fit7_GL_w)
+                    subset=-c(20, 21, 22, 23, 32, 226, 344, 377));summary(fit7_GL_w)
 
 
 
 MR(coef(fit7_GL), coef(fit7_GL_w20)) # 0.83 0.76 % 
+MR(coef(fit7_GL), coef(fit7_GL_w21)) # 0.83 0.76 % 
 MR(coef(fit7_GL), coef(fit7_GL_w22)) # 2.5 2.1 % 
 MR(coef(fit7_GL), coef(fit7_GL_w23)) # 2.34 1.85 % 
+MR(coef(fit7_GL), coef(fit7_GL_w32)) # 2.34 1.85 % 
+MR(coef(fit7_GL), coef(fit7_GL_w226)) # 2.34 1.85 % 
+MR(coef(fit7_GL), coef(fit7_GL_w344)) # 2.34 1.85 % 
 MR(coef(fit7_GL), coef(fit7_GL_w377)) # -0.61 -0.75 %
 MR(coef(fit7_GL), coef(fit7_GL_w)) # 5.55 4.38 % 
 

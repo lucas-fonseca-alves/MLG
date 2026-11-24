@@ -489,11 +489,23 @@ fit8_Blogit_w2 <- glm(Miners ~ Bulokes + Timber + Shrubs,
                        family = binomial(link = "logit"),
                        data = nminer,
                        subset=-c(2));summary(fit8_Blogit_w2)
+
+fit8_Blogit_w8 <- glm(Miners ~ Bulokes + Timber + Shrubs,
+                      family = binomial(link = "logit"),
+                      data = nminer,
+                      subset=-c(8));summary(fit8_Blogit_w8)
+
 summary(fit8_Blogit)
 fit8_Blogit_w10 <- glm(Miners ~ Bulokes + Timber + Shrubs,
                       family = binomial(link = "logit"),
                       data = nminer,
                       subset=-c(10));summary(fit8_Blogit_w10)
+
+fit8_Blogit_w11 <- glm(Miners ~ Bulokes + Timber + Shrubs,
+                       family = binomial(link = "logit"),
+                       data = nminer,
+                       subset=-c(11));summary(fit8_Blogit_w11)
+
 summary(fit8_Blogit)
 fit8_Blogit_w14 <- glm(Miners ~ Bulokes + Timber + Shrubs,
                        family = binomial(link = "logit"),
@@ -519,10 +531,12 @@ fit8_Blogit_w29 <- glm(Miners ~ Bulokes + Timber + Shrubs,
 fit8_Blogit_w <- glm(Miners ~ Bulokes + Timber + Shrubs,
                        family = binomial(link = "logit"),
                        data = nminer,
-                       subset=-c(2, 8, 10, 14, 18, 28, 29));summary(fit8_Blogit_w)
+                       subset=-c(2, 8, 10, 11, 14, 18, 28, 29));summary(fit8_Blogit_w)
 
 MR(coef(fit8_Blogit), coef(fit8_Blogit_w2))   #0.31 8.58 -6.22 -14.45 %
+MR(coef(fit8_Blogit), coef(fit8_Blogit_w8))  #-6.39 2.4 -10.55 -10.21 %
 MR(coef(fit8_Blogit), coef(fit8_Blogit_w10))  #-6.39 2.4 -10.55 -10.21 %
+MR(coef(fit8_Blogit), coef(fit8_Blogit_w11))  #-6.39 2.4 -10.55 -10.21 %
 MR(coef(fit8_Blogit), coef(fit8_Blogit_w14))  #57.47 40.23 65.54 63.99 %
 MR(coef(fit8_Blogit), coef(fit8_Blogit_w18))  #-5.45 -3.73 -4.88 -6.83 % 
 MR(coef(fit8_Blogit), coef(fit8_Blogit_w28))  #5.03 8.49 3.42 -10.81 %

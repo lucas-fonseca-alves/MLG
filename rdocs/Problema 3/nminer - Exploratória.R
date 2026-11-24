@@ -177,7 +177,7 @@ cores_y <- c("0" = "#F8766D", "1" = "#00BFC4")
 
 #*** Miners x Eucs ***#
 
-ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Miners))) +
+D_E_M <- ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Miners))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
   scale_color_manual(values = cores_y) +
   labs(x = "Número de árvores de eucalipto", 
@@ -372,14 +372,14 @@ ggplot(nminer, aes(x = Shrubs, fill = factor(Miners))) +
 ggsave("Barras_Miners_Shrubs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
 
 
-ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Shrubs))) +
+D_E_M_S <- ggplot(nminer, aes(x = Eucs, y = Miners, color = factor(Shrubs))) +
   geom_jitter(height = 0.05, width = 0, alpha = 0.6, size = 2) +
   scale_color_manual(values = cores_y) +
   labs(x = "Número de árvores de eucalipto", 
        y = "Miners (0/1)", 
        color = "Arbusto presentes na área?") +
   theme_minimal()
-ggsave("Dispersao_Miners_Eucs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
+ggsave("Dispersao_Miners_Eucs_Shrubs.pdf",path = caminho_Problema3, width = 158, height = 93, units = "mm")
 
 
 ggplot(nminer, aes(x = Bulokes, y = Miners, color = factor(Shrubs))) +
@@ -413,4 +413,3 @@ ggsave("Dispersao_Miners_Timber_Shrubs.pdf",path = caminho_Problema3, width = 15
 
 
 #------------------------------------------------------------------------------#----
-

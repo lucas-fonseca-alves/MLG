@@ -136,19 +136,33 @@ fit2_NL_w3 <- glm(Srich ~ Latitude + Habitat,
                  data = ants,
                  subset=-c(3));summary(fit2_NL_w3)
 
+fit2_NL_w4 <- glm(Srich ~ Latitude + Habitat, 
+                  family=gaussian(link = "log"),
+                  data = ants,
+                  subset=-c(4));summary(fit2_NL_w4)
+
+fit2_NL_w13 <- glm(Srich ~ Latitude + Habitat, 
+                  family=gaussian(link = "log"),
+                  data = ants,
+                  subset=-c(13));summary(fit2_NL_w13)
+
 fit2_NL_w25 <- glm(Srich ~ Latitude + Habitat, 
                  family=gaussian(link = "log"),
                  data = ants,
                  subset=-c(25));summary(fit2_NL_w25)
 
+
+
 fit2_NL_w <- glm(Srich ~ Latitude + Habitat, 
                  family=gaussian(link = "log"),
                  data = ants,
-                 subset=-c(1,3,25));summary(fit2_NL_w)
+                 subset=-c(1,3, 4, 13, 25));summary(fit2_NL_w)
 
 #***mudança nas estimativas***# (Lidou melhor)
 MR(coef(fit2_NL), coef(fit2_NL_w1)) #10.7 12.07 6.54 % 
 MR(coef(fit2_NL), coef(fit2_NL_w3)) # -8.6 -9.68 -6.36 %
+MR(coef(fit2_NL), coef(fit2_NL_w4)) # -8.6 -9.68 -6.36 %
+MR(coef(fit2_NL), coef(fit2_NL_w13)) # -8.6 -9.68 -6.36 %
 MR(coef(fit2_NL), coef(fit2_NL_w25)) #-5.77 -5.76 15.28 % 
 MR(coef(fit2_NL), coef(fit2_NL_w)) # -4.94 -4.83 15.19 % 
 

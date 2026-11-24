@@ -116,7 +116,7 @@ plot(resq, xlab = "Índice", ylab = "Resíduo Quantílico",
      ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2)
 abline(-2, 0, lty = 2)
-#identify(resq)
+identify(resq)
 
 # (4) Resíduo quantílico vs. valores ajustados
 plot(fitted(fit.model), resq,
@@ -124,7 +124,7 @@ plot(fitted(fit.model), resq,
      ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2)
 abline(-2, 0, lty = 2)
-#identify(fitted(fit.model), resq)
+identify(fitted(fit.model), resq)
 
 par(mfrow = c(1, 1))
 
@@ -134,7 +134,7 @@ plot(eta, z,
      ylab = "Variável z",
      pch = 16)
 lines(smooth.spline(eta, z, df = 2))
-#identify(eta, z)
+identify(eta, z)
 
 # (6) QQ-plot dos resíduos quantílicos (opcional)
 # qqnorm(resq, pch = 16, main = "QQ-plot - Res. Quantílico")

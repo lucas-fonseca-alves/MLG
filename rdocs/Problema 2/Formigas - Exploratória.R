@@ -45,6 +45,21 @@ ggplot(ants ,aes(x = Srich)) +
   theme_minimal()
 ggsave("Histograma_Srich.pdf",path = caminho_Problema2, width = 158, height = 93, units = "mm")
 
+# Extrai a tabela interna de bins que o ggplot2 usou
+p <- ggplot(ants, aes(x = Srich)) +
+  geom_histogram(bins = 15, fill = "steelblue", color = "white") +
+  labs(x = "Número de espécies de formigas", y = "Frequência") +
+  theme_minimal()
+
+# Extrai a tabela interna de bins que o ggplot2 usou
+tabela <- layer_data(p) |>
+  dplyr::select(xmin, xmax, count, density) |>
+  dplyr::mutate(
+    faixa = paste0("[", xmin, ", ", xmax, ")"),
+    .before = 1
+  )
+
+tabela
 
 
 ggplot(ants, aes(x = "", y = Srich)) +

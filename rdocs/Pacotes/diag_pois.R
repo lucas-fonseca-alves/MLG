@@ -92,7 +92,7 @@ plot(resq, xlab = "Índice", ylab = "Resíduo Quantílico",
      ylim = c(b - 1, a + 1), pch = 16)
 abline(2, 0, lty = 2)
 abline(-2, 0, lty = 2)
-# identify(resq, n = 5)
+ identify(resq, n = 5)
 
 # (4) Resíduo quantílico vs. valores ajustados
 plot(fitted(fit.model), resq,

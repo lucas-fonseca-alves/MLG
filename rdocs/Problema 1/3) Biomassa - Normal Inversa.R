@@ -155,6 +155,12 @@ fit7_NIL_w22 <- glm(Foliage ~ log(DBH),
                     data = lime,
                     subset=-c(22));summary(fit7_NIL_w22)
 
+fit7_NIL_w23 <- glm(Foliage ~ log(DBH), 
+                    family=inverse.gaussian(link = "log"),
+                    data = lime,
+                    subset=-c(23));summary(fit7_NIL_w23)
+
+
 fit7_NIL_w24 <- glm(Foliage ~ log(DBH), 
                     family=inverse.gaussian(link = "log"),
                     data = lime,
@@ -168,11 +174,12 @@ fit7_NIL_w257 <- glm(Foliage ~ log(DBH),
 fit7_NIL_w <- glm(Foliage ~ log(DBH), 
                   family=inverse.gaussian(link = "log"),
                   data = lime,
-                  subset=-c(20, 21, 22, 24, 257));summary(fit7_NIL_w)
+                  subset=-c(20, 21, 22, 23, 24, 257));summary(fit7_NIL_w)
 
 MR(coef(fit7_NIL), coef(fit7_NIL_w20)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w21)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w22)) # 0.83 0.76 % 
+MR(coef(fit7_NIL), coef(fit7_NIL_w23)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w24)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w257)) # 0.83 0.76 % 
 MR(coef(fit7_NIL), coef(fit7_NIL_w)) # 0.83 0.76 % 
